@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(JSON.stringify(req.body, null, 2))
+      res.send(id)
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
