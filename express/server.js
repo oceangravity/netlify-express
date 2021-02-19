@@ -1,20 +1,25 @@
 'use strict';
+
 const axios = require('axios');
-const express = require('express');
 const path = require('path');
-const serverless = require('serverless-http');
-const app = express();
+const express = require('express');
 const bodyParser = require('body-parser');
+const serverless = require('serverless-http');
 
-const router = express.Router();
+const app = express();
 
-// parse application/x-www-form-urlencoded
-router.use(bodyParser.urlencoded({extended: true}));
+// create application/json parser
+const jsonParser = bodyParser.json();
 
-// parse application/json
-router.use(bodyParser.json({ type: 'application/*+json' }))
+// create application/x-www-form-urlencoded parser
+const urlencodedParser = bodyParser.urlencoded({extended: false});
 
-router.post('/', (req, res) => {
+// POST /login gets urlencoded bodies
+app.post('/login', urlencodedParser, function (req, res) {
+  res.send('welcome, ' + req.body.username)
+})
+
+app.post('/', (req, res) => {
   const data = req.body;
   const endpoint = `https://api.vimeo.com/videos/${39619054}/`;
 
@@ -27,7 +32,7 @@ router.post('/', (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(JSON.stringify(req.body))
+      res.send(req.body)
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
@@ -36,7 +41,7 @@ router.post('/', (req, res) => {
 
 });
 
-app.use('/.netlify/functions/server', router);  // path must route to lambda
+app.use('/.netlify/functions/server', app);  // path must route to lambda
 app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
 
 module.exports = app;
