@@ -27,7 +27,24 @@ router.get('/', (req, res) => {
     })
 });
 router.get('/another', (req, res) => res.json({ route: req.originalUrl }));
-router.post('/', (req, res) => res.json({ postBody: req.body }));
+router.post('/', (req, res) => {
+  const endpoint = `https://api.vimeo.com/videos/${req.body.id || 39619054}/`;
+
+  axios({
+    method: 'get',
+    url: endpoint,
+    headers: {
+      'Authorization': 'Bearer 49270908714248669759768a47d29b63'
+    }
+  })
+    .then(response => {
+      res.status(200)
+      res.send(req)
+    })
+    .catch(error => {
+      console.log('Error with Axios profile res: ', error)
+      res.send({ error })
+    })});
 
 app.use(bodyParser.json());
 app.use('/.netlify/functions/server', router);  // path must route to lambda
