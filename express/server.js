@@ -11,12 +11,9 @@ app.use(bodyParser.urlencoded({ extended : true }))
 const router = express.Router();
 
 router.post('/', (req, res) => {
-/*
-  const data = req.body;
-  const endpoint = `https://api.vimeo.com/videos/${39619054}/`;
-*/
+  const endpoint = `https://api.vimeo.com/videos/${req.body.id || 39619054}/`;
   res.status(200)
-  res.json(req.body.id)
+  res.json(endpoint)
 
 /*  axios({
     method: 'get',
