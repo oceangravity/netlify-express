@@ -11,7 +11,7 @@ const jsonParser = bodyParser.json();
 
 const router = express.Router();
 router.post('/', jsonParser, (req, res) => {
-  const { id } = req.body;
+  const { data } = req.body;
   const endpoint = `https://api.vimeo.com/videos/${id || 39619054}/`;
 
   axios({
@@ -23,7 +23,7 @@ router.post('/', jsonParser, (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(req.body)
+      res.send(data)
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
