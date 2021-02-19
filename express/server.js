@@ -7,10 +7,9 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const router = express.Router();
-router.get('/', (req, res) => {
+router.post('/', (req, res) => {
   const { username } = req.body;
-  // const endpoint = `https://api.github.com/users/${username}${params}`;
-  const endpoint = `https://api.vimeo.com/videos/39619054/`;
+  const endpoint = `https://api.vimeo.com/videos/${id}/`;
 
   axios({
     method: 'get',
@@ -27,8 +26,6 @@ router.get('/', (req, res) => {
       console.log('Error with Axios profile res: ', error)
       res.send({ error })
     })
-
-  return
 });
 router.get('/another', (req, res) => res.json({ route: req.originalUrl }));
 router.post('/', (req, res) => res.json({ postBody: req.body }));
