@@ -7,26 +7,6 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const router = express.Router();
-router.get('/', (req, res) => {
-  const endpoint = `https://api.vimeo.com/videos/${req.query.id || 39619054}/`;
-
-  axios({
-    method: 'get',
-    url: endpoint,
-    headers: {
-      'Authorization': 'Bearer 49270908714248669759768a47d29b63'
-    }
-  })
-    .then(response => {
-      res.status(200)
-      res.send(req)
-    })
-    .catch(error => {
-      console.log('Error with Axios profile res: ', error)
-      res.send({ error })
-    })
-});
-router.get('/another', (req, res) => res.json({ route: req.originalUrl }));
 router.post('/', (req, res) => {
   const { id } = req.body;
   const endpoint = `https://api.vimeo.com/videos/${id || 39619054}/`;
@@ -40,7 +20,7 @@ router.post('/', (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(id)
+      res.send(JSON.stringify(req.body, null, 2))
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
@@ -49,7 +29,12 @@ router.post('/', (req, res) => {
 
 });
 
-app.use(bodyParser.json());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
 app.use('/.netlify/functions/server', router);  // path must route to lambda
 app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
 
