@@ -6,12 +6,16 @@ const serverless = require('serverless-http');
 const app = express();
 const bodyParser = require('body-parser');
 
-const jsonParser = bodyParser.json();
+// parse application/x-www-form-urlencoded
+router.use(bodyParser.urlencoded({extended: true}));
 
+// parse application/json
+router.use(bodyParser.json())
 
 const router = express.Router();
-router.post('/', jsonParser, function (req, res) {
-  const endpoint = `https://api.vimeo.com/videos/${39619054}/`;
+router.post('/', (req, res) => {
+  const { id } = req.body;
+  const endpoint = `https://api.vimeo.com/videos/${id || 39619054}/`;
 
   axios({
     method: 'get',
@@ -28,8 +32,8 @@ router.post('/', jsonParser, function (req, res) {
       console.log('Error with Axios profile res: ', error)
       res.send({ error })
     })
-})
 
+});
 
 app.use('/.netlify/functions/server', router);  // path must route to lambda
 app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
