@@ -9,9 +9,6 @@ const bodyParser = require('body-parser');
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
 
-// parse application/json
-app.use(bodyParser.json())
-
 const router = express.Router();
 router.post('/', (req, res) => {
   const { id } = req.body;
