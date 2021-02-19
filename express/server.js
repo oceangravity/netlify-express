@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 router.get('/', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/html' });
-  const json = JSON.stringify(req);
+  const json = JSON.stringify({data: 1});
   res.write(`<h1>Hello from Express.js! ${json}</h1>`);
   res.end();
 });
