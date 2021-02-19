@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
   const endpoint = `https://api.vimeo.com/videos/${39619054}/`;
 */
   res.status(200)
-  res.send(req.body)
+  res.send(req.body.id)
 
 /*  axios({
     method: 'get',
