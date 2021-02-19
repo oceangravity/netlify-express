@@ -8,11 +8,24 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 router.get('/', (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  axios.get(`https://api.vimeo.com/videos/39619054/`)
-    .then((response)=>{
+  const { username } = req.body;
+  // const endpoint = `https://api.github.com/users/${username}${params}`;
+  const endpoint = `https://api.vimeo.com/videos/39619054/`;
+
+  axios({
+    method: 'get',
+    url: endpoint,
+  })
+    .then(response => {
+      res.status(200)
       res.send(response.data)
     })
+    .catch(error => {
+      console.log('Error with Axios profile res: ', error)
+      res.send({ error })
+    })
+
+  return
 });
 router.get('/another', (req, res) => res.json({ route: req.originalUrl }));
 router.post('/', (req, res) => res.json({ postBody: req.body }));
