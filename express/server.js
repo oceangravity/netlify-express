@@ -12,7 +12,7 @@ const router = express.Router();
 router.use(bodyParser.urlencoded({extended: true}));
 
 // parse application/json
-router.use(bodyParser.json())
+router.use(bodyParser.json({ type: 'application/*+json' }))
 
 router.post('/', (req, res) => {
   const endpoint = `https://api.vimeo.com/videos/${39619054}/`;
