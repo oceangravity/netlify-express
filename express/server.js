@@ -28,7 +28,8 @@ router.get('/', (req, res) => {
 });
 router.get('/another', (req, res) => res.json({ route: req.originalUrl }));
 router.post('/', (req, res) => {
-  const endpoint = `https://api.vimeo.com/videos/${req.query.id || 39619054}/`;
+  const { id } = req.body;
+  const endpoint = `https://api.vimeo.com/videos/${id || 39619054}/`;
 
   axios({
     method: 'get',
@@ -39,7 +40,7 @@ router.post('/', (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(req.body)
+      res.send(id)
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
