@@ -3,16 +3,12 @@ const axios = require('axios');
 const express = require('express');
 const path = require('path');
 const serverless = require('serverless-http');
-const app = express();
 const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended : true }))
 
 const router = express.Router();
-
-// parse application/x-www-form-urlencoded
-router.use(bodyParser.urlencoded({extended: true}));
-
-// parse application/json
-router.use(bodyParser.json({ type: 'application/*+json' }))
 
 router.post('/', (req, res) => {
   const data = req.body;
@@ -27,7 +23,7 @@ router.post('/', (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(req.body)
+      res.send(response.data)
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
