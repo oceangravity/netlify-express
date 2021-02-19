@@ -15,7 +15,7 @@ router.post('/', (req, res) => {
   res.status(200)
   res.json(endpoint)
 
-/*  axios({
+  axios({
     method: 'get',
     url: endpoint,
     headers: {
@@ -24,12 +24,12 @@ router.post('/', (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(req.body.id)
+      res.send(response.data)
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
       res.send({ error })
-    })*/
+    })
 
 });
 
