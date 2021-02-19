@@ -15,7 +15,7 @@ router.use(bodyParser.urlencoded({extended: true}));
 router.use(bodyParser.json({ type: 'application/*+json' }))
 
 router.post('/', (req, res) => {
-  const data = JSON.parse(req.body);
+  const data = req.body;
   const endpoint = `https://api.vimeo.com/videos/${ data.id || 39619054 }/`;
 
   axios({
