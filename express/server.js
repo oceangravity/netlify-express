@@ -14,8 +14,7 @@ router.use(bodyParser.json())
 
 const router = express.Router();
 router.post('/', (req, res) => {
-  const { id } = req.body;
-  const endpoint = `https://api.vimeo.com/videos/${id || 39619054}/`;
+  const endpoint = `https://api.vimeo.com/videos/${39619054}/`;
 
   axios({
     method: 'get',
