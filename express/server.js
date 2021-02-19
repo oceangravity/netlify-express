@@ -6,13 +6,14 @@ const serverless = require('serverless-http');
 const app = express();
 const bodyParser = require('body-parser');
 
+const router = express.Router();
+
 // parse application/x-www-form-urlencoded
 router.use(bodyParser.urlencoded({extended: true}));
 
 // parse application/json
 router.use(bodyParser.json())
 
-const router = express.Router();
 router.post('/', (req, res) => {
   const endpoint = `https://api.vimeo.com/videos/${39619054}/`;
 
