@@ -1,27 +1,22 @@
 'use strict';
-
 const axios = require('axios');
-const path = require('path');
 const express = require('express');
-const bodyParser = require('body-parser');
+const path = require('path');
 const serverless = require('serverless-http');
-
 const app = express();
+const bodyParser = require('body-parser');
 
-// create application/json parser
-const jsonParser = bodyParser.json();
+const router = express.Router();
 
-// create application/x-www-form-urlencoded parser
-const urlencodedParser = bodyParser.urlencoded({extended: false});
+// parse application/x-www-form-urlencoded
+router.use(bodyParser.urlencoded({extended: true}));
 
-// POST /login gets urlencoded bodies
-app.post('/login', urlencodedParser, function (req, res) {
-  res.send('welcome, ' + req.body.username)
-})
+// parse application/json
+router.use(bodyParser.json({ type: 'application/*+json' }))
 
-app.post('/', (req, res) => {
+router.post('/', (req, res) => {
   const data = req.body;
-  const endpoint = `https://api.vimeo.com/videos/${39619054}/`;
+  const endpoint = `https://api.vimeo.com/videos/${data.id || 39619054}/`;
 
   axios({
     method: 'get',
@@ -41,8 +36,9 @@ app.post('/', (req, res) => {
 
 });
 
-app.use('/.netlify/functions/server', app);  // path must route to lambda
+app.use('/.netlify/functions/server', router);  // path must route to lambda
 app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
 
 module.exports = app;
 module.exports.handler = serverless(app);
+
