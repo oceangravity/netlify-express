@@ -10,7 +10,7 @@ const jsonParser = bodyParser.json();
 
 
 const router = express.Router();
-router.post('/', jsonParser, (req, res) => {
+router.post('/login', jsonParser, function (req, res) {
   const { data } = req.body;
   const endpoint = `https://api.vimeo.com/videos/${id || 39619054}/`;
 
@@ -23,14 +23,14 @@ router.post('/', jsonParser, (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(data)
+      res.send(req.body)
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
       res.send({ error })
     })
+})
 
-});
 
 app.use('/.netlify/functions/server', router);  // path must route to lambda
 app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
