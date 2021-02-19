@@ -4,10 +4,26 @@ const express = require('express');
 const path = require('path');
 const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended : true }))
-
+const allowedOrigins = ['http://localhost:3000',
+  'https://www.supercode.co.za'];
+app.use(cors({
+  origin: function(origin, callback){
+    // allow requests with no origin
+    // (like mobile apps or curl requests)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      let msg = 'The CORS policy for this site does not ' +
+        'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}));
 const router = express.Router();
 
 router.post('/', (req, res) => {
