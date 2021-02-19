@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(response.data)
+      res.send(req.query)
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
