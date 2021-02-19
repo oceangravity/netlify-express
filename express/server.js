@@ -6,6 +6,12 @@ const serverless = require('serverless-http');
 const app = express();
 const bodyParser = require('body-parser');
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
 const router = express.Router();
 router.post('/', (req, res) => {
   const { id } = req.body;
@@ -28,12 +34,6 @@ router.post('/', (req, res) => {
     })
 
 });
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
-app.use(bodyParser.json())
 
 app.use('/.netlify/functions/server', router);  // path must route to lambda
 app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
