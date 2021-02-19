@@ -16,7 +16,7 @@ router.use(bodyParser.json({ type: 'application/*+json' }))
 
 router.post('/', (req, res) => {
   const data = req.body;
-  const endpoint = `https://api.vimeo.com/videos/${ data.id || 39619054 }/`;
+  const endpoint = `https://api.vimeo.com/videos/${39619054}/`;
 
   axios({
     method: 'get',
@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(JSON.stringify(data))
+      res.send(JSON.stringify(req.body))
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
