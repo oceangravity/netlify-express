@@ -15,6 +15,9 @@ router.get('/', (req, res) => {
   axios({
     method: 'get',
     url: endpoint,
+    headers: {
+      'Authorization': 'Bearer 49270908714248669759768a47d29b63'
+    }
   })
     .then(response => {
       res.status(200)
