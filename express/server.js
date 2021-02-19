@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 router.post('/', (req, res) => {
-  const { username } = req.body;
-  const endpoint = `https://api.vimeo.com/videos/${id}/`;
+  const { id } = req.body;
+  const endpoint = `https://api.vimeo.com/videos/${id || 39619054}/`;
 
   axios({
     method: 'get',
