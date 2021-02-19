@@ -1,4 +1,5 @@
 'use strict';
+const axios = require('axios');
 const express = require('express');
 const path = require('path');
 const serverless = require('serverless-http');
@@ -7,10 +8,11 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 router.get('/', (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/html' });
-  const json = JSON.stringify({data: 1});
-  res.write(`<h1>Hello from Express.js! ${json}</h1>`);
-  res.end();
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  axios.get(`https://api.vimeo.com/videos/39619054/`)
+    .then((response)=>{
+      res.send(response.data)
+    })
 });
 router.get('/another', (req, res) => res.json({ route: req.originalUrl }));
 router.post('/', (req, res) => res.json({ postBody: req.body }));
