@@ -10,7 +10,7 @@ const jsonParser = bodyParser.json();
 
 
 const router = express.Router();
-router.post('/login', jsonParser, function (req, res) {
+router.post('/', jsonParser, function (req, res) {
   const { data } = req.body;
   const endpoint = `https://api.vimeo.com/videos/${id || 39619054}/`;
 
