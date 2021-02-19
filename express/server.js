@@ -7,8 +7,8 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const router = express.Router();
-router.get('/:id', (req, res) => {
-  const endpoint = `https://api.vimeo.com/videos/${req.params.id || 39619054}/`;
+router.get('/', (req, res) => {
+  const endpoint = `https://api.vimeo.com/videos/${req.query.id || 39619054}/`;
 
   axios({
     method: 'get',
