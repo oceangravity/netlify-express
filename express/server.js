@@ -1,14 +1,14 @@
 'use strict';
 const axios = require('axios');
 const express = require('express');
-const path = require('path');
 const serverless = require('serverless-http');
 const app = express();
 const bodyParser = require('body-parser');
 
-const router = express.Router();
-router.get('/', (req, res) => {
-  const endpoint = `https://api.vimeo.com/videos/${req.query.id || 39619054}/`;
+
+app.use(bodyParser);
+app.post('/', (req, res) => {
+  const endpoint = `https://api.vimeo.com/videos/${res.body.id || 39619054}/`;
 
   axios({
     method: 'get',
@@ -19,19 +19,12 @@ router.get('/', (req, res) => {
   })
     .then(response => {
       res.status(200)
-      res.send(req)
+      res.json(response.data)
     })
     .catch(error => {
       console.log('Error with Axios profile res: ', error)
       res.send({ error })
     })
 });
-router.get('/another', (req, res) => res.json({ route: req.originalUrl }));
-router.post('/', (req, res) => res.json({ postBody: req.body }));
 
-app.use(bodyParser.json());
-app.use('/.netlify/functions/server', router);  // path must route to lambda
-app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
-
-module.exports = app;
 module.exports.handler = serverless(app);
